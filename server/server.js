@@ -5,12 +5,23 @@ var path = require('path');
 
 var app = module.exports = loopback();
 
-
 app.middleware('initial', bodyParser.urlencoded({ extended: true }));
 
+/* app.use(loopback.cookieParser('someSecret'));
+app.use(loopback.token({
+  model: app.models.accessToken,
+  cookies: ['accessToken']
+}));
+ */
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.
 boot(app, __dirname);
+
+app.use(loopback.cookieParser('someSecret'));
+app.use(loopback.token({
+  model: app.models.accessToken,
+  cookies: ['accessToken']
+}));
 
 app.set('view engine', 'ejs'); // LoopBack comes with EJS out-of-box
 app.set('json spaces', 2); // format json responses for easier viewing
